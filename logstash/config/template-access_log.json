@@ -1,0 +1,105 @@
+{
+	"template": "access-logs-*",
+	"settings": {
+		"index.refresh_interval": "5s"
+	},
+	"mappings": {
+		"_default_": {
+			"dynamic_templates": [
+				{
+					"message_field": {
+						"mapping": {
+							"norms": false,
+							"type": "text"
+						},
+						"match_mapping_type": "string",
+						"match": "message"
+					}
+				},
+				{
+					"string_fields": {
+						"mapping": {
+							"norms": false,
+							"type": "text",
+							"fields": {
+								"raw": {
+									"ignore_above": 256,
+									"type": "keyword"
+								}
+							}
+						},
+						"match_mapping_type": "string",
+						"match": "*"
+					}
+				}
+			],
+			"properties": {
+				"@version": {
+					"type": "integer",
+					"index": "not_analyzed"
+				},
+				"@timestamp": {
+					"type": "date",
+					"format": "dateOptionalTime"
+				},
+				"agent": {
+					"type": "string",
+					"index": "not_analyzed"
+				},
+				"bytes": {
+					"type": "long"
+				},
+				"host": {
+					"type": "string",
+					"index": "not_analyzed"
+				},
+				"clientip": {
+					"type": "ip"
+				},
+				"httpversion": {
+					"type": "float"
+				},
+				"referrer": {
+					"type": "string",
+					"index": "not_analyzed"
+				},
+				"request": {
+					"type": "string",
+					"index": "not_analyzed",
+					"include_in_all": false
+				},
+				"response": {
+					"type": "integer",
+					"index": "not_analyzed"
+				},
+				"verb": {
+					"type": "string",
+					"norms": {
+						"enabled": false
+					}
+				},
+				"geoip": {
+					"dynamic": true,
+					"properties": {
+						"location": {
+							"type": "geo_point"
+						},
+						"ip": {
+							"type": "ip"
+						},
+						"continent_code": {
+							"type": "keyword"
+						},
+						"country_name": {
+							"type": "keyword"
+						}
+					},
+					"type": "object"
+				}
+			},
+			"_all": {
+				"enabled": true
+			}
+		}
+	}
+}

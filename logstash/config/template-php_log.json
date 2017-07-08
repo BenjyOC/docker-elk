@@ -1,0 +1,74 @@
+{
+	"template": "php-logs-*",
+	"settings": {
+		"index.refresh_interval": "5s"
+	},
+	"mappings": {
+		"_default_": {
+			"dynamic_templates": [
+				{
+					"message_field": {
+						"mapping": {
+							"norms": false,
+							"type": "text"
+						},
+						"match_mapping_type": "string",
+						"match": "message"
+					}
+				},
+				{
+					"string_fields": {
+						"mapping": {
+							"norms": false,
+							"type": "text",
+							"fields": {
+								"raw": {
+									"ignore_above": 256,
+									"type": "keyword"
+								}
+							}
+						},
+						"match_mapping_type": "string",
+						"match": "*"
+					}
+				}
+			],
+			"properties": {
+				"@version": {
+					"type": "integer",
+					"index": "not_analyzed"
+				},
+				"@timestamp": {
+					"type": "date",
+					"format": "dateOptionalTime"
+				},
+				"loglevel": {
+					"type": "integer",
+					"index": "not_analyzed"
+				},
+				"pid": {
+					"type": "integer",
+					"index": "not_analyzed"
+				},
+				"proxy_errorcode": {
+					"type": "integer",
+					"index": "not_analyzed"
+				},
+				"proxy_errormessage": {
+					"type": "integer",
+					"index": "not_analyzed"
+				},
+				"clientip": {
+					"type": "ip"
+				},
+				"clientport": {
+					"type": "integer",
+					"index": "not_analyzed"
+				}
+			},
+			"_all": {
+				"enabled": true
+			}
+		}
+	}
+}
