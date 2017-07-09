@@ -38,6 +38,8 @@ services:
     build: apache/
     ports:
       - "80:80"
+    volumes:
+      - ./apache/html:/var/www/html
     logging:
       driver: gelf
       options:
