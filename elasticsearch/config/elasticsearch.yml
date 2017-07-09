@@ -1,5 +1,9 @@
 # ======================== Elasticsearch Configuration =========================
 
+# ---------------------------------- Snapshot ----------------------------------
+
+path.repo: ["/usr/share/elasticsearch/backup"]
+
 # ---------------------------------- Cluster -----------------------------------
 #
 # Use a descriptive name for your cluster:
