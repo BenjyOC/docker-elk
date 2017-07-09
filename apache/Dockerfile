@@ -16,12 +16,12 @@ ENV APACHE_PID_FILE /var/run/apache2.pid
 ENV APACHE_RUN_DIR /var/run/apache2
 ENV APACHE_LOCK_DIR /var/lock/apache2
 
-ADD 001-project-template.conf /etc/apache2/sites-available/
+ADD vhost/001-project-template.conf /etc/apache2/sites-available/
 RUN rm -rf /etc/apache2/sites-enabled \
  && mkdir -p /etc/apache2/sites-enabled \
  && ln -s /etc/apache2/sites-available/001-project-template.conf /etc/apache2/sites-enabled/
 
-ADD index.php /var/www/html/
+ADD html/index.php /var/www/html/
 RUN rm -f /var/www/html/index.html
 
 RUN a2enmod status && \
