@@ -1,4 +1,4 @@
-FROM logstash:5
+FROM logstash:alpine
 MAINTAINER Benjamin Rabiller <bra@oxalide.com>
  
 ### LOGSTASH CONF

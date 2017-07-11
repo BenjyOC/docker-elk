@@ -2,6 +2,23 @@ version: '3'
 
 services:
 
+  redis:
+    build: redis/
+    ports:
+      - "6379:6379"
+    networks:
+      - elk
+  
+  rabbitmq:
+    build: rabbitmq/
+    ports:
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: "brabiller"
+      RABBITMQ_DEFAULT_PASS: "test"
+    networks:
+      - elk
+
   elasticsearch:
     build: elasticsearch/
     ports:
