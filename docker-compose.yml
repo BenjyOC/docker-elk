@@ -1,11 +1,21 @@
 version: '3'
 
 services:
-  
+
   redis:
     build: redis/
     ports:
       - "6379:6379"
+    networks:
+      - elk
+  
+  rabbitmq:
+    build: rabbitmq/
+    ports:
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: "brabiller"
+      RABBITMQ_DEFAULT_PASS: "test"
     networks:
       - elk
 
@@ -14,6 +24,9 @@ services:
     ports:
       - "9200:9200"
       - "9300:9300"
+    volumes:
+      - /space/elasticsearch/data:/usr/share/elasticsearch/data
+      - /space/elasticsearch/backup:/usr/share/elasticsearch/backup
     environment:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
     networks:
@@ -33,7 +46,7 @@ services:
   kibana:
     build: kibana/
     volumes:
-      - C:\Users\brabiller\Documents\logstash\kibana\config:/usr/share/kibana/config
+      - ./kibana/config:/usr/share/kibana/config
     ports:
       - "5601:5601"
     networks:
@@ -46,11 +59,11 @@ services:
     ports:
       - "80:80"
     volumes:
-      - C:\Users\brabiller\Documents\logstash\apache\html:/var/www/html
+      - ./apache/html:/var/www/html
     logging:
       driver: gelf
       options:
-        gelf-address: "udp://10.0.75.0:5043"
+        gelf-address: "udp://172.17.0.1:5043"
     networks:
       - elk
 
